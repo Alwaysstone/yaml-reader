@@ -1,0 +1,76 @@
+italia:
+  codice: IT
+  abitanti: 123123123
+  regioni:
+    sardegna:
+      codice: IT_89
+      abitanti: 1000222
+      province:
+        cagliari:
+          codice: CA
+          abitanti: 10222
+          comuni:
+            cagliari:
+              codice: B354
+              abitanti: 1222
+            assemini:
+              codice: A474
+              abitanti: 1223
+        oristano:
+          codice: OR
+          abitanti: 20222
+          comuni:
+            bosa:
+              codice: B354
+              abitanti: 2222
+            oristano:
+              codice: A474
+              abitanti: 2223
+    abruzzo:
+      codice: IT_21
+      abitanti: 2000333
+      province:
+        aquila:
+          codice: AQ
+          abitanti: 20333
+          comuni:
+            aquila:
+              codice: XXXXX
+              abitanti: 2333
+            sulmona:
+              codice: YYYYY
+              abitanti: 2334
+        pescara:
+          codice: PE
+          abitanti: 30333
+          comuni:
+            pescara:
+              codice: XXXXX
+              abitanti: 3333
+            scafa:
+              codice: YYYYYY
+              abitanti: 3334
+    piemonte:
+      codice: IT_10
+      abitanti: 3000444
+      province:
+        torino:
+          codice: TO
+          abitanti: 30444
+          comuni:
+            torino:
+              codice: XXXXX
+              abitanti: 3444
+            cinzano:
+              codice: YYYYY
+              abitanti: 3445
+        alessandria:
+          codice: AL
+          abitanti: 40444
+          comuni:
+            alessandria:
+              codice: XXXXX
+              abitanti: 4444
+            acqui terme:
+              codice: YYYYYY
+              abitanti: 4445
