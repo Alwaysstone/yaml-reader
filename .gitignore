@@ -8,3 +8,4 @@ nbproject
 tests/result.yml
 tests/sardegna.yml
 tests/test_error.yml
+.phpunit.result.cache
