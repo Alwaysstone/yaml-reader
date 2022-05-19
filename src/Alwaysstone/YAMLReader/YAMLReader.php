@@ -149,6 +149,8 @@ class YAMLReader {
     public function move (string $from, string $to, string|int|null $pos): YAMLReader {
         if ($this->isReady()) {
             list ($pos, $key, $boa) = self::_normalizePos($pos);
+            $from = Utils::bonificaKey($from);
+            $to = Utils::bonificaKey($to);
 
             $xpath = new \DOMXpath($this->dom);
             $source = $xpath->query("/root".$from, $this->dom);
@@ -201,6 +203,7 @@ class YAMLReader {
      */
     public function delete (string $path): YAMLReader {
         if ($this->isReady()) {
+            $path = Utils::bonificaKey($path);
             $xpath = new \DOMXpath($this->dom);
             $source = $xpath->query("/root".$path, $this->dom);
             $elemToPaste = false;
@@ -222,6 +225,7 @@ class YAMLReader {
      */
     public function findPosition(string $path) {
         if ($this->isReady()) {
+            $path = Utils::bonificaKey($path);
             $xpath = new \DOMXpath($this->dom);
             $source = $xpath->query("/root".$path, $this->dom);
             if ($source->count() > 0) {
@@ -250,6 +254,7 @@ class YAMLReader {
      */
     public function isPresent(string $path) {
         if ($this->isReady()) {
+            $path = Utils::bonificaKey($path);
             $xpath = new \DOMXpath($this->dom);
             $source = $xpath->query("/root".$path, $this->dom);
             return $source->count() > 0;
@@ -271,6 +276,7 @@ class YAMLReader {
      */
     public function update (string $path, string|int $value): YAMLReader {
         if ($this->isReady()) {
+            $path = Utils::bonificaKey($path);
             $xpath = new \DOMXpath($this->dom);
             $source = $xpath->query("/root".$path, $this->dom);
 
@@ -296,6 +302,7 @@ class YAMLReader {
      */
     public function valueAt (string $path): mixed {
         if ($this->isReady()) {
+            $path = Utils::bonificaKey($path);
             $xpath = new \DOMXpath($this->dom);
             $source = $xpath->query("/root".$path, $this->dom);
 
@@ -321,6 +328,7 @@ class YAMLReader {
      */
     public function extract (string $path): YAMLReader {
         if ($this->isReady()) {
+            $path = Utils::bonificaKey($path);
             $xpath = new \DOMXpath($this->dom);
             $source = $xpath->query("/root".$path, $this->dom);
             $elemToPaste = false;
@@ -373,6 +381,7 @@ class YAMLReader {
      */
     public function create(string $fullpath, mixed $data): YAMLReader {
         if ($this->isReady()) {
+            $fullpath = Utils::bonificaKey($fullpath);
             $parent_path = substr($fullpath, 0, strrpos($fullpath, "/"));
             $nodename = substr($fullpath, strrpos($fullpath, "/")+1);
             $xpath = new \DOMXpath($this->dom);

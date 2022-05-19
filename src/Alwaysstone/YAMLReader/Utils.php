@@ -75,7 +75,11 @@ class Utils {
     }
     
     public static function bonificaKey($key) {
-       return str_replace(" ", "__SP__", $key);
+        if (substr($key, -1) == "/" ) {
+            $key = substr($key, 0, -1);
+        }
+        return str_replace(" ", "__SP__", $key);
+
     }
     
     public static function ripristinaKey($key) {

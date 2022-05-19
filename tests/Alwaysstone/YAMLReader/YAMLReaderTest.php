@@ -319,5 +319,79 @@ SARDYAML;
         $yaml = new YAMLReader($yaml_test_file);
         $yaml->extract("/francia/regioni/sardegna");
     }
+
+    public function testYAMLExctractItemWithSpace(): void {
+        $yaml_test_file = __DIR__ . '/../../test.yml';
+        $yaml_result_file = __DIR__ . '/../../acqui_terme.yml';
+        
+        $yaml = new YAMLReader($yaml_test_file);
+        $newYaml = $yaml->extract("/italia/regioni/piemonte/province/alessandria/comuni/acqui terme");
+
+        $newYaml->save($yaml_result_file);
+        $this->assertFileExists($yaml_result_file, "Cannot find test.yml test file");
+        $content = <<<SARDYAML
+acqui terme:
+  codice: YYYYYY
+  abitanti: 4445
+SARDYAML; 
+        $content = trim($content);
+        $this->assertStringEqualsFile($yaml_result_file, $content);
+
+        $this->assertFalse($yaml->isPresent("/italia/regioni/sardegna/province/cagliari/comuni/acqui terme"));
+        $this->assertTrue($yaml->isPresent("/italia/regioni/piemonte/province/alessandria/comuni/acqui terme"));
+        $yaml->move("/italia/regioni/piemonte/province/alessandria/comuni/acqui terme", "/italia/regioni/sardegna/province/cagliari/comuni", -1);
+        $this->assertTrue($yaml->isPresent("/italia/regioni/sardegna/province/cagliari/comuni/acqui terme"));
+        $this->assertFalse($yaml->isPresent("/italia/regioni/piemonte/province/alessandria/comuni/acqui terme"));
+
+        $this->assertFalse($yaml->isPresent("/italia/regioni/sardegna/province/sassari/"));
+        
+        $yaml->create("/italia/regioni/sardegna/province/sassari", [
+            'abitanti' => 2222, 
+            'comuni' => [
+                'test spazio' => [
+                    'codice' => 'NNNNNNNNN',
+                    'abitanti' => 2776
+                ],
+                'Portotorres' => [
+                    'codice' => 'PRTTRRS',
+                    'abitanti' => 78758
+                ]
+            ] 
+        ]);
+        
+        $this->assertTrue($yaml->isPresent("/italia/regioni/sardegna/province/sassari/"));
+        $newYaml = $yaml->extract("/italia/regioni/sardegna/province/sassari");
+        $newYaml->save($yaml_result_file);
+        $content = <<<SARDYAML
+sassari:
+  abitanti: 2222
+  comuni:
+    test spazio:
+      codice: NNNNNNNNN
+      abitanti: 2776
+    Portotorres:
+      codice: PRTTRRS
+      abitanti: 78758
+SARDYAML;
+        $content = trim($content);
+        $this->assertStringEqualsFile($yaml_result_file, $content);
+
+        $abitanti = $yaml->valueAt("/italia/regioni/sardegna/province/sassari/comuni/test spazio/abitanti");
+        
+        $this->assertEquals(2776, $abitanti);
+
+        $yaml->update("/italia/regioni/sardegna/province/sassari/comuni/test spazio/abitanti", 203334);
+        $abitanti = $yaml->valueAt("/italia/regioni/sardegna/province/sassari/comuni/test spazio/abitanti");
+        $this->assertEquals(203334, $abitanti);
+
+        $this->assertTrue($yaml->isPresent("/italia/regioni/sardegna/province/sassari/comuni/test spazio"));
+        
+        $yaml->delete("/italia/regioni/sardegna/province/sassari/comuni/test spazio");
+        
+        $this->assertFalse($yaml->isPresent("/italia/regioni/sardegna/province/sassari/comuni/test spazio"));
+
+        
+    }
+
 }
 
